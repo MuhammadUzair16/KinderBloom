@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid py-5">
+  <div class="container">
+    <div class="card border-0">
+      <div class="card-header bg-secondary text-center p-4">
+        <h1 class="text-white m-0">Book A Seat</h1>
+      </div>
+      <div class="card-body rounded-bottom bg-primary p-5">
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">Book Now</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
