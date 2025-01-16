@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'class',
     'about',
     'teacher',
+    'gallery',
 ]
 
 MIDDLEWARE = [

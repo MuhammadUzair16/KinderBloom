@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid bg-primary mb-5">
+      <div
+        class="d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 400px"
+      >
+        <h3 class="display-3 font-weight-bold text-white">Gallery</h3>
+        <div class="d-inline-flex text-white">
+          <p class="m-0"><a class="text-white" href="{% url 'home' %}">Home</a></p>
+          <p class="m-0 px-2">/</p>
+          <p class="m-0">Gallery</p>
+        </div>
+      </div>
+    </div>
+
+<div class="container-fluid pt-5 pb-3">
+    <div class="container">
+        <div class="text-center pb-2">
+            <p class="section-title px-5">
+                <span class="px-2">Our Gallery</span>
+            </p>
+            <h1 class="mb-4">Our Kids School Gallery</h1>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center mb-2">
+                <ul class="list-inline mb-4" id="portfolio-filters">
+                    <li class="btn btn-outline-primary m-1 active" data-filter="*">All</li>
+                    {% for category in categories %}
+                    <li class="btn btn-outline-primary m-1" data-filter=".{{ category.id }}">
+                        {{ category.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row portfolio-container">
+            {% for image in images %}
+            <div class="col-lg-4 col-md-6 mb-4 portfolio-item {{ image.category.id }}">
+                <div class="position-relative overflow-hidden mb-2">
+                    <img class="img-fluid w-100" src="{{ image.image.url }}" alt="{{ image.title }}" />
+                    <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
+                        <a href="{{ image.image.url }}" data-lightbox="portfolio" title="{{ image.description }}">
+                            <i class="fa fa-plus text-white" style="font-size: 60px"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'css/lightbox.css' %}">
+<script src="{% static 'js/lightbox.js' %}"></script>
+<script>
+    // Initialize filtering
+    document.addEventListener("DOMContentLoaded", function () {
+        const filters = document.querySelectorAll('#portfolio-filters li');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                filters.forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                const filterValue = filter.getAttribute('data-filter');
+                portfolioItems.forEach(item => {
+                    item.style.display =
+                        filterValue === '*' || item.classList.contains(filterValue.substr(1))
+                            ? 'block'
+                            : 'none';
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}
